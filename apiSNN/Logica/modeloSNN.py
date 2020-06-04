@@ -2,28 +2,19 @@ from django.db import models
 from django.urls import reverse
 import pandas as pd
 import numpy as np
+
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.compose import make_column_transformer, ColumnTransformer
 from sklearn.pipeline import Pipeline
-#from sklearn.model_selection import train_test_split
-
 from tensorflow.python.keras.models import load_model, model_from_json
 from keras import backend as K
 from apiSNN import models
-
 import os
-#import keras
-#from keras.layers import Dense
 from tensorflow.python.keras.models import Sequential
-
 import pathlib
-#from keras.wrappers.scikit_learn import KerasClassifier
-#from sklearn.model_selection import cross_val_score
-#from sklearn.model_selection import GridSearchCV
-#from keras.layers import Dropout
 
 class modeloSNN():
-    """Clase modelo SNN"""
+    """Clase modelo.json SNN"""
 
     Selectedmodel = Sequential()
     preprocesador1 = make_column_transformer(
@@ -38,7 +29,7 @@ class modeloSNN():
         # Cargar la Arquitectura desde el archivo JSON
         with open(nombreArchivoModelo+'.json', 'r') as f:
             model = model_from_json(f.read())
-        # Cargar Pesos (weights) en el nuevo modelo
+        # Cargar Pesos (weights) en el nuevo modelo.json
         model.load_weights(nombreArchivoPesos+'.h5') 
         print("Red Neuronal Cargada desde Archivo") 
         return model

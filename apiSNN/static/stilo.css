@@ -1,0 +1,10 @@
+body{
+    background-image: url("fondo.jpg");
+    cursor: pointer;
+}
+#FIngreso{
+    padding: 40px;
+    margin: 100px auto;
+    font-family: Calibri;
+    background-color: white;
+}

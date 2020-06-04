@@ -1,14 +1,17 @@
 #CONTROLADOR
-
+from django.core.files.storage import FileSystemStorage
 from rest_framework import generics #para microservicio
+from werkzeug.datastructures import FileStorage
+
 from apiSNN import models
 from apiSNN import serializers
-
+import os
 from django.shortcuts import render
-import pyrebase #para consumo servicio base de datos de firebase
-from apiSNN.Logica import modeloSNN #para utilizar modelo SNN
-
+from apiSNN.Logica import modeloSNN #para utilizar modelo.json SNN
+from apiSNN.Logica import controlador
 # Create your views here.
+
+
 class ListLibro(generics.ListCreateAPIView):
     """
     retrieve:
@@ -56,14 +59,23 @@ config = {
     'measurementId': "G-MKSCN84RDE"
 }
 
-firebase = pyrebase.initialize_app(config)
-auth = firebase.auth()
+
 
 class Autenticacion():
 
-    def singIn(request):
+    def upload(request):
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-        return render(request, "signIn.html")
+        if request.method == 'POST':
+            archivo = request.FILES['archivo']
+            fileStorage = FileSystemStorage()
+            fileStorage.save(archivo.name, archivo)
+
+            url_imagen = BASE_DIR + '/media/' + archivo.name
+            flor, porcentaje = controlador.predecirImg(url_imagen)
+            return render(request, "prediccion.html", {'flor': flor, 'porcentaje': porcentaje})
+
+        return render(request, "index.html")
 
     def postsign(request):
         email=request.POST.get('email')
