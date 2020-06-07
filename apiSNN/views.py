@@ -9,6 +9,7 @@ import os
 from django.shortcuts import render
 from apiSNN.Logica import modeloSNN #para utilizar modelo.json SNN
 from apiSNN.Logica import controlador
+from apiSNN.models import ORM_Imagen
 # Create your views here.
 
 
@@ -73,6 +74,10 @@ class Autenticacion():
 
             url_imagen = BASE_DIR + '/media/' + archivo.name
             flor, porcentaje = controlador.predecirImg(url_imagen)
+
+            orm_imagen = ORM_Imagen(None, archivo.name, porcentaje, flor)
+            orm_imagen.save()
+
             return render(request, "prediccion.html", {'flor': flor, 'porcentaje': porcentaje})
 
         return render(request, "index.html")

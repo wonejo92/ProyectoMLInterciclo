@@ -1,5 +1,13 @@
 from django.db import models
 
+
+class ORM_Imagen(models.Model):
+    imagen_id = models.AutoField(primary_key=True)
+    imagen_nombre = models.CharField(max_length=45)
+    imagen_porcentaje = models.FloatField()
+    imagen_prediccion = models.CharField(max_length=50)
+
+
 class Image(models.Model):
     #https://mc.ai/integrar-modelo-de-red-neuronal-convolucional-en-django/
     # file will be uploaded to MEDIA_ROOT / uploads 
